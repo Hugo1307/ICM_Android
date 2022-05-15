@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
@@ -144,21 +143,21 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         btnDial1.setOnLongClickListener(view -> {
-            Intent intent = new Intent(this, SpeedDialManager.class);
+            Intent intent = new Intent(this, SpeedDialActivity.class);
             intent.putExtra(dialIdKey, 1);
             launchSpeedDialWithResult.launch(intent);
             return true;
         });
 
         btnDial2.setOnLongClickListener(view -> {
-            Intent intent = new Intent(this, SpeedDialManager.class);
+            Intent intent = new Intent(this, SpeedDialActivity.class);
             intent.putExtra(dialIdKey, 2);
             launchSpeedDialWithResult.launch(intent);
             return true;
         });
 
         btnDial3.setOnLongClickListener(view -> {
-            Intent intent = new Intent(this, SpeedDialManager.class);
+            Intent intent = new Intent(this, SpeedDialActivity.class);
             intent.putExtra(dialIdKey, 3);
             launchSpeedDialWithResult.launch(intent);
             return true;

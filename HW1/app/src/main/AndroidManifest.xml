@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SpeedDialManager"
+            android:name=".SpeedDialActivity"
             android:exported="false"
             android:label = "Speed Dial Manager"
             android:parentActivityName=".MainActivity">

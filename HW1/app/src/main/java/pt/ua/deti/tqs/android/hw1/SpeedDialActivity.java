@@ -14,7 +14,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-public class SpeedDialManager extends AppCompatActivity {
+public class SpeedDialActivity extends AppCompatActivity {
 
     private int dialId;
 

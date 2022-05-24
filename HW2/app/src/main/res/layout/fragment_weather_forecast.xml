@@ -6,16 +6,115 @@
     android:layout_height="match_parent"
     tools:context=".fragments.WeatherForecastFragment">
 
+    <Button
+        android:id="@+id/btnForecast3"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#323232"
+        android:text="Button"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnForecast2"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnForecast5"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:backgroundTint="#323232"
+        android:text="Button"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnForecast4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/btnForecast4" />
+
+    <Button
+        android:id="@+id/btnForecast1"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="#323232"
+        android:text="Button"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnForecast4"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnForecast2"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:backgroundTint="#323232"
+        android:text="Button"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/btnForecast1"
+        app:layout_constraintEnd_toStartOf="@+id/btnForecast3"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toEndOf="@+id/btnForecast1" />
+
+    <Button
+        android:id="@+id/btnForecast4"
+        android:layout_width="100dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="#323232"
+        android:text="Button"
+        android:textColor="@color/white"
+        android:textSize="8sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnForecast5"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/maxTempLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="8dp"
         android:text="Max Temperature:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cityNamePlaceholder" />
+        app:layout_constraintTop_toBottomOf="@+id/weatherTypeIdLabel" />
+
+    <TextView
+        android:id="@+id/maxTempPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:textAlignment="viewStart"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/maxTempLabel"
+        app:layout_constraintStart_toStartOf="@+id/weatherTypeIdPlaceholder" />
+
+    <TextView
+        android:id="@+id/minTempLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Min Temperature:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/maxTempLabel" />
+
+    <TextView
+        android:id="@+id/minTempPlaceholder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:textAlignment="viewStart"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/minTempLabel"
+        app:layout_constraintStart_toStartOf="@+id/maxTempPlaceholder" />
 
     <TextView
         android:id="@+id/windSpeedPlaceholder"
@@ -32,22 +131,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="Weather Type:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/minTempLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/forecastDatePlaceholder" />
 
     <TextView
         android:id="@+id/weatherTypeIdPlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
+        android:layout_marginStart="88dp"
         android:text="@string/placeholder"
         android:textAlignment="viewStart"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/weatherTypeIdLabel"
-        app:layout_constraintStart_toStartOf="@+id/minTempPlaceholder" />
+        app:layout_constraintStart_toEndOf="@+id/weatherTypeIdLabel" />
 
     <TextView
         android:id="@+id/precipitationProbLabel"
@@ -61,22 +160,11 @@
         app:layout_constraintTop_toBottomOf="@+id/windSpeedLabel" />
 
     <TextView
-        android:id="@+id/maxTempPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
-        android:text="@string/placeholder"
-        android:textAlignment="viewStart"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/maxTempLabel"
-        app:layout_constraintStart_toEndOf="@+id/maxTempLabel" />
-
-    <TextView
         android:id="@+id/windSpeedLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="Wind Speed:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
@@ -91,18 +179,7 @@
         android:text="Wind Direction:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/weatherTypeIdLabel" />
-
-    <TextView
-        android:id="@+id/minTempLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
-        android:text="Min Temperature:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/maxTempLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/minTempLabel" />
 
     <TextView
         android:id="@+id/precipitationProbPlaceholder"
@@ -122,25 +199,14 @@
         android:textAlignment="viewStart"
         android:textSize="12sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/windDirectionLabel"
-        app:layout_constraintStart_toStartOf="@+id/weatherTypeIdPlaceholder" />
-
-    <TextView
-        android:id="@+id/minTempPlaceholder"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:text="@string/placeholder"
-        android:textAlignment="viewStart"
-        android:textSize="12sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/minTempLabel"
-        app:layout_constraintStart_toStartOf="@+id/maxTempPlaceholder" />
+        app:layout_constraintStart_toStartOf="@+id/minTempPlaceholder" />
 
     <TextView
         android:id="@+id/cityNamePlaceholder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:text="@string/placeholder"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="20sp"
@@ -152,12 +218,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="24dp"
         android:text="@string/placeholder"
         android:textAlignment="viewStart"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/precipitationProbLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/cityNamePlaceholder" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -172,4 +237,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="20dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

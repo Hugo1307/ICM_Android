@@ -86,7 +86,9 @@ public class CitiesFragment extends Fragment {
 
         CityModel currentCity = citiesListViewModel.getCitiesList().getValue().get(position);
 
-        weatherAPIService.updateForecastForCity(currentCity, weatherForecastViewModel.getWeatherPrediction());
+        weatherAPIService.updateForecastListForCity(currentCity, weatherForecastViewModel.getAllForecastPredictions());
+        weatherAPIService.updateForecastForCity(currentCity, 0, weatherForecastViewModel.getCurrentWeatherPrediction());
+        weatherForecastViewModel.getCurrentCity().setValue(currentCity);
 
         MainActivity mainActivity = getActivity() instanceof MainActivity ? (MainActivity) getActivity() : null;
 

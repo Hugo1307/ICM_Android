@@ -75,16 +75,14 @@ public class IPMAWeatherClient {
 
                 int statusCode = response.code();
                 WeatherTypeGroupModel weatherTypesGroup = response.body();
-                for ( WeatherTypeModel weather: weatherTypesGroup.getTypes() ) {
-                    Log.i("HW2", String.valueOf(weather));
+                for (WeatherTypeModel weather: weatherTypesGroup.getTypes())
                     weatherDescriptions.put(weather.getIdWeatherType(), weather);
-                }
                 listener.receiveWeatherTypesList(weatherDescriptions);
 
             }
 
             @Override
-            public void onFailure(Call<WeatherTypeGroupModel> call, Throwable t) {
+            public void onFailure(@NonNull Call<WeatherTypeGroupModel> call, @NonNull Throwable t) {
                 Log.e( "main", "errog calling remote api: " + t.getLocalizedMessage());
                 listener.onFailure( t);
             }
@@ -105,10 +103,8 @@ public class IPMAWeatherClient {
             public void onResponse(@NonNull Call<WindGroupModel> call, Response<WindGroupModel> response) {
 
                 WindGroupModel windGroupModel = response.body();
-                for (WindModel windModel : windGroupModel.getTypes()) {
-                    Log.i("HW2", String.valueOf(windModel));
+                for (WindModel windModel : windGroupModel.getTypes())
                     windDescriptions.put(windModel.getWindSpeedClass(), windModel);
-                }
                 listener.receiveWeatherTypesList(windDescriptions);
             }
 

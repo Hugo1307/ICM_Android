@@ -59,14 +59,16 @@ public class WeatherAPIService {
 
     }
 
-    public void updateForecastForCity(CityModel city, MutableLiveData<WeatherForecastEntity> mutableLiveData) {
+    public void updateForecastForCity(CityModel city, int forecastIndex, MutableLiveData<WeatherForecastEntity> currentWeather) {
 
         ipmaWeatherClient.retrieveForecastForCity(city.getGlobalIdLocal(), new CityForecastListener() {
 
             @Override
             public void receiveForecastList(List<WeatherModel> forecast) {
 
-                Optional<WeatherModel> firstForecast = forecast.stream().findFirst();
+                if (forecastIndex >= forecast.size()) return;
+
+                WeatherModel currentForecast = forecast.get(forecastIndex);
 
                 ipmaWeatherClient.retrieveWeatherConditionsDescriptions(new WeatherTypesListener() {
 
@@ -85,15 +87,13 @@ public class WeatherAPIService {
                             public void receiveWeatherTypesList(HashMap<String, WindModel> descriptorsCollection) {
 
                                 windTypeModelMap = descriptorsCollection;
-
-                                WeatherModel weatherModel = firstForecast.get();
                                 WeatherForecastEntity weatherForecastEntity;
 
-                                weatherForecastEntity = new WeatherForecastEntity(city.getLocal(), weatherModel.getForecastDate(), weatherModel.getPrecipitaProb(),
-                                        weatherModel.getTMin(), weatherModel.getTMax(), weatherModel.getPredWindDir(),
-                                        weatherTypeModelMap.get(weatherModel.getIdWeatherType()).getDescIdWeatherTypeEN(), windTypeModelMap.get(String.valueOf(weatherModel.getClassWindSpeed())).getWindSpeedDescription(), weatherModel.getLastRefresh());
+                                weatherForecastEntity = new WeatherForecastEntity(city.getLocal(), currentForecast.getForecastDate(), currentForecast.getPrecipitaProb(),
+                                        currentForecast.getTMin(), currentForecast.getTMax(), currentForecast.getPredWindDir(),
+                                        weatherTypeModelMap.get(currentForecast.getIdWeatherType()).getDescIdWeatherTypeEN(), windTypeModelMap.get(String.valueOf(currentForecast.getClassWindSpeed())).getWindSpeedDescription(), currentForecast.getLastRefresh());
 
-                                mutableLiveData.setValue(weatherForecastEntity);
+                                currentWeather.setValue(weatherForecastEntity);
 
                             }
 
@@ -112,6 +112,24 @@ public class WeatherAPIService {
                     }
                 });
 
+            }
+
+            @Override
+            public void onFailure(Throwable cause) {
+                Log.w("HW2", "Error getting weather forecast.");
+            }
+
+        });
+
+    }
+
+    public void updateForecastListForCity(CityModel city, MutableLiveData<List<WeatherModel>> mutableLiveData) {
+
+        ipmaWeatherClient.retrieveForecastForCity(city.getGlobalIdLocal(), new CityForecastListener() {
+
+            @Override
+            public void receiveForecastList(List<WeatherModel> forecast) {
+                mutableLiveData.setValue(forecast);
             }
 
             @Override

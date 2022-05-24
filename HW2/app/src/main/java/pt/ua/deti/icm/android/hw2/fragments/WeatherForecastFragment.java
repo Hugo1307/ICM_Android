@@ -9,15 +9,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
 
 import pt.ua.deti.icm.android.hw2.R;
 import pt.ua.deti.icm.android.hw2.viewmodels.WeatherForecastViewModel;
 import pt.ua.deti.icm.android.hw2.viewmodels.entities.WeatherForecastEntity;
+import pt.ua.deti.icm.android.hw2.weather_api.WeatherAPIService;
+import pt.ua.deti.icm.android.hw2.weather_api.model.CityModel;
 import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherModel;
 
 public class WeatherForecastFragment extends Fragment {
@@ -54,18 +61,46 @@ public class WeatherForecastFragment extends Fragment {
                 cityNamePlaceholder.setText(weatherForecast.getCityName());
                 forecastDatePlaceholder.setText(weatherForecast.getForecastDate());
 
-                maxTempPlaceholder.setText(String.valueOf(weatherForecast.getMaxTemp()));
-                minTempPlaceholder.setText(String.valueOf(weatherForecast.getMinTemp()));
+                maxTempPlaceholder.setText(String.format("%s ºC", weatherForecast.getMaxTemp()));
+                minTempPlaceholder.setText(String.format("%s ºC", weatherForecast.getMinTemp()));
                 weatherTypePlaceholder.setText(String.valueOf(weatherForecast.getWeatherType()));
                 windDirectionPlaceholder.setText(weatherForecast.getWindDirection());
                 windSpeedPlaceholder.setText(String.valueOf(weatherForecast.getWindSpeed()));
                 precipitationProbPlaceholder.setText(String.format("%s %%", weatherForecast.getPrecipitationProb()));
             };
 
-            mViewModel.getWeatherPrediction().observe(requireActivity(), weatherIdObserver);
+            mViewModel.getCurrentWeatherPrediction().observe(requireActivity(), weatherIdObserver);
+
+            // Forecast selector buttons
+
+            Button[] forecastButtons = {getView().findViewById(R.id.btnForecast1), getView().findViewById(R.id.btnForecast2),
+                    getView().findViewById(R.id.btnForecast3), getView().findViewById(R.id.btnForecast4), getView().findViewById(R.id.btnForecast5)};
+
+            Observer<List<WeatherModel>> weatherForecastListObserver = weatherModelList -> {
+                for (int i = 0; i < forecastButtons.length; i++) {
+
+                    forecastButtons[i].setText(getWeekDayName(weatherModelList.get(i).getForecastDate()));
+
+                    CityModel currentCity = mViewModel.getCurrentCity().getValue();
+
+                    if (currentCity == null) continue;
+
+                    int finalI = i;
+                    forecastButtons[i].setOnClickListener(v -> WeatherAPIService.getInstance().updateForecastForCity(currentCity, finalI, mViewModel.getCurrentWeatherPrediction()));
+
+                }
+            };
+
+            mViewModel.getAllForecastPredictions().observe(requireActivity(), weatherForecastListObserver);
 
         }
 
+    }
+
+    private String getWeekDayName(String s) {
+        DateTimeFormatter dtfInput = DateTimeFormatter.ofPattern("u-M-d", Locale.ENGLISH);
+        DateTimeFormatter dtfOutput = DateTimeFormatter.ofPattern("EEEE", Locale.ENGLISH);
+        return LocalDate.parse(s, dtfInput).format(dtfOutput).substring(0, 3);
     }
 
 }

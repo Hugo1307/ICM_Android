@@ -17,7 +17,7 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/details_fragment_container_view"
         android:name="pt.ua.deti.icm.android.hw2.fragments.WeatherForecastFragment"
-        android:layout_width="0dp"
+        android:layout_width="478dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cities_fragment_container_view"

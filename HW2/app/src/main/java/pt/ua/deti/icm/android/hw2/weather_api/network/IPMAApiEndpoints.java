@@ -3,6 +3,7 @@ package pt.ua.deti.icm.android.hw2.weather_api.network;
 import pt.ua.deti.icm.android.hw2.weather_api.model.CityGroupModel;
 import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherGroupModel;
 import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherTypeGroupModel;
+import pt.ua.deti.icm.android.hw2.weather_api.model.WindGroupModel;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -18,5 +19,7 @@ public interface IPMAApiEndpoints {
     @GET("open-data/weather-type-classe.json")
     Call<WeatherTypeGroupModel> getWeatherTypes();
 
+    @GET("open-data/wind-speed-daily-classe.json")
+    Call<WindGroupModel> getWindSpeedTypes();
 
 }

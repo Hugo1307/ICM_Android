@@ -2,6 +2,8 @@ package pt.ua.deti.icm.android.hw2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.window.layout.WindowMetrics;
+import androidx.window.layout.WindowMetricsCalculator;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -9,8 +11,10 @@ import android.util.Log;
 import java.util.HashMap;
 import java.util.Map;
 
-import pt.ua.deti.icm.android.hw2.cities.CitiesListVM;
-import pt.ua.deti.icm.android.hw2.cities.City;
+import pt.ua.deti.icm.android.hw2.fragments.CitiesFragment;
+import pt.ua.deti.icm.android.hw2.utils.WindowSizeClass;
+import pt.ua.deti.icm.android.hw2.viewmodels.CitiesListViewModel;
+import pt.ua.deti.icm.android.hw2.weather_api.WeatherAPIService;
 import pt.ua.deti.icm.android.hw2.weather_api.model.CityModel;
 import pt.ua.deti.icm.android.hw2.weather_api.network.IPMAWeatherClient;
 import pt.ua.deti.icm.android.hw2.weather_api.network.listeners.CityResultsListener;
@@ -18,7 +22,7 @@ import pt.ua.deti.icm.android.hw2.weather_api.network.listeners.CityResultsListe
 public class MainActivity extends AppCompatActivity {
 
     private final IPMAWeatherClient client = new IPMAWeatherClient();
-    private CitiesListVM citiesListViewModel;
+    private CitiesListViewModel citiesListViewModel;
 
     public MainActivity() {
         super(R.layout.activity_main);
@@ -29,13 +33,14 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        citiesListViewModel = new ViewModelProvider(this).get(CitiesListVM.class);
+        citiesListViewModel = new ViewModelProvider(this).get(CitiesListViewModel.class);
 
-        if (citiesListViewModel.getCitiesList().getValue() == null || citiesListViewModel.getCitiesList().getValue().size() == 0) {
-            getAllCities();
+        if (citiesListViewModel.getCitiesList().getValue() == null ||
+                citiesListViewModel.getCitiesList().getValue().size() == 0) {
+            WeatherAPIService.getInstance().updateAllCities(citiesListViewModel.getCitiesList());
         }
 
-        if (savedInstanceState == null) {
+        if (savedInstanceState == null && computeWindowWidth() == WindowSizeClass.COMPACT) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.fragment_container_view, CitiesFragment.class, null)
@@ -44,27 +49,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getAllCities() {
+    public WindowSizeClass computeWindowWidth() {
 
-        client.retrieveCitiesList(new CityResultsListener() {
+        WindowMetrics metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this);
 
-            @Override
-            public void receiveCitiesList(HashMap<String, CityModel> citiesCollection) {
-                int count = 0;
-                for (Map.Entry<String, CityModel> city : citiesCollection.entrySet())
-                    citiesListViewModel.addCity(new City(++count, city.getKey()));
-            }
+        float widthDp = metrics.getBounds().width() / getResources().getDisplayMetrics().density;
+        WindowSizeClass widthWindowSizeClass;
 
-            @Override
-            public void onFailure(Throwable cause) {
-                Log.w("HW2", "Failed to get cities list!");
-            }
+        if (widthDp < 600f) {
+            widthWindowSizeClass = WindowSizeClass.COMPACT;
+        } else if (widthDp < 840f) {
+            widthWindowSizeClass = WindowSizeClass.MEDIUM;
+        } else {
+            widthWindowSizeClass = WindowSizeClass.EXPANDED;
+        }
 
-        });
-
+        return widthWindowSizeClass;
 
     }
-
-
 
 }

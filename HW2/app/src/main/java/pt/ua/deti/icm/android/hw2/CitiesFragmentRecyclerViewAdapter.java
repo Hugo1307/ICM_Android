@@ -7,16 +7,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import pt.ua.deti.icm.android.hw2.cities.City;
 import pt.ua.deti.icm.android.hw2.databinding.FragmentCitiesBinding;
+import pt.ua.deti.icm.android.hw2.weather_api.model.CityModel;
 
 import java.util.List;
 
 public class CitiesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<CitiesFragmentRecyclerViewAdapter.ViewHolder> {
 
-    private final List<City> mValues;
+    private final List<CityModel> mValues;
 
-    public CitiesFragmentRecyclerViewAdapter(List<City> items) {
+    public CitiesFragmentRecyclerViewAdapter(List<CityModel> items) {
         mValues = items;
     }
 
@@ -29,8 +29,7 @@ public class CitiesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Citi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
-        holder.mContentView.setText(mValues.get(position).getName());
+        holder.mContentView.setText(mValues.get(position).getLocal());
     }
 
     @Override
@@ -39,13 +38,11 @@ public class CitiesFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Citi
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView mIdView;
         public final TextView mContentView;
-        public City mItem;
+        public CityModel mItem;
 
         public ViewHolder(FragmentCitiesBinding binding) {
             super(binding.getRoot());
-            mIdView = binding.itemNumber;
             mContentView = binding.content;
         }
 

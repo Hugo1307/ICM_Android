@@ -8,15 +8,15 @@ import java.util.Date;
 public class WeatherTypeModel {
 
     @Expose
-    @SerializedName( "idWeatherType")
+    @SerializedName("idWeatherType")
     private int idWeatherType;
 
     @Expose
-    @SerializedName( "descIdWeatherTypePT")
+    @SerializedName("descWeatherTypePT")
     private String descIdWeatherTypePT;
 
     @Expose
-    @SerializedName( "descIdWeatherTypeEN")
+    @SerializedName("descWeatherTypeEN")
     private String descIdWeatherTypeEN;
 
     private Date lastRefresh;

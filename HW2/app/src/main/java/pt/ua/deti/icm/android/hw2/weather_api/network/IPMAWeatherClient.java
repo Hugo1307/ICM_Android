@@ -14,9 +14,12 @@ import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherGroupModel;
 import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherModel;
 import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherTypeGroupModel;
 import pt.ua.deti.icm.android.hw2.weather_api.model.WeatherTypeModel;
+import pt.ua.deti.icm.android.hw2.weather_api.model.WindGroupModel;
+import pt.ua.deti.icm.android.hw2.weather_api.model.WindModel;
 import pt.ua.deti.icm.android.hw2.weather_api.network.listeners.CityForecastListener;
 import pt.ua.deti.icm.android.hw2.weather_api.network.listeners.CityResultsListener;
 import pt.ua.deti.icm.android.hw2.weather_api.network.listeners.WeatherTypesListener;
+import pt.ua.deti.icm.android.hw2.weather_api.network.listeners.WindTypesListener;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,13 +71,16 @@ public class IPMAWeatherClient {
         Call<WeatherTypeGroupModel> call = apiService.getWeatherTypes();
         call.enqueue(new Callback<WeatherTypeGroupModel>() {
             @Override
-            public void onResponse(Call<WeatherTypeGroupModel> call, Response<WeatherTypeGroupModel> response) {
+            public void onResponse(@NonNull Call<WeatherTypeGroupModel> call, Response<WeatherTypeGroupModel> response) {
+
                 int statusCode = response.code();
                 WeatherTypeGroupModel weatherTypesGroup = response.body();
                 for ( WeatherTypeModel weather: weatherTypesGroup.getTypes() ) {
+                    Log.i("HW2", String.valueOf(weather));
                     weatherDescriptions.put(weather.getIdWeatherType(), weather);
                 }
                 listener.receiveWeatherTypesList(weatherDescriptions);
+
             }
 
             @Override
@@ -83,6 +89,37 @@ public class IPMAWeatherClient {
                 listener.onFailure( t);
             }
         });
+    }
+
+    /**
+     * get the dictionary for the wind states
+     * @param listener a listener object to callback with the results
+     */
+    public void retrieveWindConditionsDescriptions(WindTypesListener listener) {
+
+        HashMap<String, WindModel> windDescriptions = new HashMap<>();
+
+        Call<WindGroupModel> call = apiService.getWindSpeedTypes();
+        call.enqueue(new Callback<WindGroupModel>() {
+            @Override
+            public void onResponse(@NonNull Call<WindGroupModel> call, Response<WindGroupModel> response) {
+
+                WindGroupModel windGroupModel = response.body();
+                for (WindModel windModel : windGroupModel.getTypes()) {
+                    Log.i("HW2", String.valueOf(windModel));
+                    windDescriptions.put(windModel.getWindSpeedClass(), windModel);
+                }
+                listener.receiveWeatherTypesList(windDescriptions);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WindGroupModel> call, @NonNull Throwable t) {
+                Log.e( "main", "errog calling remote api: " + t.getLocalizedMessage());
+                listener.onFailure( t);
+            }
+
+        });
+
     }
 
     /**
